@@ -1,0 +1,14 @@
+all:
+  hosts:
+    client-1:
+      ansible_host: 192.168.65.131
+      ansible_port: 2222
+      ansible_user: ansible
+    client-2:
+      ansible_host: 192.168.65.131
+      ansible_port: 2223
+      ansible_user: ansible
+    client-3:
+      ansible_host: 192.168.65.131
+      ansible_port: 2224
+      ansible_user: ansible
