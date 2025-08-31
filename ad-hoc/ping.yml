@@ -1,0 +1,12 @@
+- name: Test AWX SSH connectivity
+  hosts: all
+  gather_facts: no
+  vars:
+    clients: "{{ awx_clients }}"
+  tasks:
+    - name: Ping each AWX client
+      ansible.builtin.ping:
+      delegate_to: "{{ item.ansible_host }}"
+      ansible_port: "{{ item.ansible_port }}"
+      ansible_user: "{{ item.ansible_user }}"
+      loop: "{{ clients }}"
