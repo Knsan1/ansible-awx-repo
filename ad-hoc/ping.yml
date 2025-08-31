@@ -1,6 +1,7 @@
 - name: Test AWX SSH connectivity
   hosts: all
   gather_facts: no
+  become: true
   vars:
     clients: "{{ awx_clients }}"
   tasks:
