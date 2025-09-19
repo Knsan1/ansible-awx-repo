@@ -30,3 +30,8 @@
     - name: Show aggregated list
       debug:
         var: my_custom_list
+
+    - name: Export list to workflow
+      set_stats:
+        data:
+          my_custom_list: "{{ my_custom_list }}"
