@@ -14,7 +14,8 @@
         content: |
           {% for h in my_custom_list %}
           Hostname: {{ h.hostname }}
-          IP: {{ h.ip }}
+          BIOS: {{ h.bios }}
+          Date: {{ h.date }}
           OS: {{ h.os }}
           --------------------
           {% endfor %}

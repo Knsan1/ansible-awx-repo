@@ -7,7 +7,8 @@
       set_fact:
         host_entry:
           hostname: "{{ ansible_hostname }}"
-          ip: "{{ ansible_default_ipv4.address }}"
+          date: "{{ ansible_date_time.date }}"
+          bios: "{{ ansible_bios_version | default('N/A') }}"
           os: "{{ ansible_distribution }} {{ ansible_distribution_version }}"
 
     - name: Save to global list
