@@ -3,7 +3,7 @@
   hosts: all
   gather_facts: yes
   tasks:
-    - name: Build host info list
+    - name: Build host info list per host
       set_fact:
         host_entry:
           hostname: "{{ ansible_hostname }}"
@@ -15,16 +15,18 @@
       debug:
         var: host_entry
 
-    - name: Save to global list
-      set_stats:
-        data:
-          my_custom_list: "{{ my_custom_list | default([]) + [ host_entry ] }}"
+    - name: Save each host_entry into hostvars
+      set_fact:
+        collected_entry: "{{ host_entry }}"
 
-# Second play just for displaying the combined list
-- name: Show final combined list
+- name: Combine all host entries into one list
   hosts: localhost
   gather_facts: no
   tasks:
-    - name: Display aggregated my_custom_list
+    - name: Aggregate host entries
+      set_fact:
+        my_custom_list: "{{ groups['all'] | map('extract', hostvars, 'collected_entry') | list }}"
+
+    - name: Show aggregated list
       debug:
         var: my_custom_list
