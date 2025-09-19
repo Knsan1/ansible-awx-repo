@@ -8,7 +8,7 @@
         msg: "Host {{ item.hostname }} (BIOS: {{ item.bios }}, Date: {{ item.date }}, OS: {{ item.os | default('N/A') }})"
       loop: "{{ my_custom_list }}"
 
-    - name: Example: write results to file
+    - name: Example write results to file
       copy:
         dest: "/tmp/report.txt"
         content: |
