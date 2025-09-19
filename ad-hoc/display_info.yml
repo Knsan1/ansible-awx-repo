@@ -5,7 +5,7 @@
   tasks:
     - name: Loop through list and show details
       debug:
-        msg: "Host {{ item.hostname }} ({{ item.ip }}) is running {{ item.os }}"
+        msg: "Host {{ item.hostname }} (BIOS: {{ item.bios }}, Date: {{ item.date }}, OS: {{ item.os | default('N/A') }})"
       loop: "{{ my_custom_list }}"
 
     - name: Example: write results to file
@@ -16,6 +16,6 @@
           Hostname: {{ h.hostname }}
           BIOS: {{ h.bios }}
           Date: {{ h.date }}
-          OS: {{ h.os }}
+          OS: {{ h.os | default('N/A') }}
           --------------------
           {% endfor %}
