@@ -11,11 +11,20 @@
           bios: "{{ ansible_bios_version | default('N/A') }}"
           os: "{{ ansible_distribution }} {{ ansible_distribution_version }}"
 
+    - name: Show per-host entry
+      debug:
+        var: host_entry
+
     - name: Save to global list
       set_stats:
         data:
           my_custom_list: "{{ my_custom_list | default([]) + [ host_entry ] }}"
 
-    - name: Loop through list and show details
+# Second play just for displaying the combined list
+- name: Show final combined list
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Display aggregated my_custom_list
       debug:
         var: my_custom_list
