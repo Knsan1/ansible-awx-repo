@@ -1,0 +1,20 @@
+# playbooks/job2_consume_list.yml
+- name: Process custom list
+  hosts: localhost
+  gather_facts: no
+  tasks:
+    - name: Loop through list and show details
+      debug:
+        msg: "Host {{ item.hostname }} ({{ item.ip }}) is running {{ item.os }}"
+      loop: "{{ my_custom_list }}"
+
+    - name: Example: write results to file
+      copy:
+        dest: "/tmp/report.txt"
+        content: |
+          {% for h in my_custom_list %}
+          Hostname: {{ h.hostname }}
+          IP: {{ h.ip }}
+          OS: {{ h.os }}
+          --------------------
+          {% endfor %}

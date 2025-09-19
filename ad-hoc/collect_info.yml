@@ -1,0 +1,16 @@
+# playbooks/job1_collect_info.yml
+- name: Collect basic system info
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Build host info list
+      set_fact:
+        host_entry:
+          hostname: "{{ ansible_hostname }}"
+          ip: "{{ ansible_default_ipv4.address }}"
+          os: "{{ ansible_distribution }} {{ ansible_distribution_version }}"
+
+    - name: Save to global list
+      set_stats:
+        data:
+          my_custom_list: "{{ my_custom_list | default([]) + [ host_entry ] }}"
