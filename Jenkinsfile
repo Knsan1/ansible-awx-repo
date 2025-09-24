@@ -16,17 +16,12 @@ spec:
     }
 
     environment {
-        // Vault connection
         VAULT_ADDR     = 'http://192.168.65.131:18200'
         VAULT_SECRET   = 'customers/acme'
         VAULT_KEY      = 'credentials'
         VAULT_SUBKEY   = 'password'
-
-        // AWX connection
         AWX_URL        = 'http://192.168.65.131:8081'
         AWX_CRED_NAME  = 'Vault (Dev)'
-
-        // Shared login (Vault & AWX use same creds)
         VAULT_USERNAME = 'devops'
         VAULT_PASSWORD = credentials('vault_userpass_secret')
     }
@@ -58,23 +53,24 @@ spec:
             }
         }
 
-        stage('Setup Python Env') {
+        stage('Install Dependencies') {
             steps {
-                sh '''
-                  python3 -m venv awx-env
-                  source awx-env/bin/activate
-                  pip install --upgrade pip
-                  pip install requests hvac
-                '''
+                container('python') {
+                    sh '''
+                      pip install --upgrade pip
+                      pip install requests hvac
+                    '''
+                }
             }
         }
 
         stage('Run Script') {
             steps {
-                sh '''
-                  source awx-env/bin/activate
-                  python vault_awx_update.py
-                '''
+                container('python') {
+                    sh '''
+                      python vault_awx_update.py
+                    '''
+                }
             }
         }
     }
